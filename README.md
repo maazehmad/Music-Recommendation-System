@@ -62,29 +62,27 @@ Tools: ffmpeg, SpeechRecognition, eyed3, Pymongo
 
 ---
 
-## Model Training
-
-The system uses a Multi-Layer Perceptron (MLP) model to learn audio features and compare similarity between songs.
+Model Training
+The system uses an ALS (Alternating Least Squares) collaborative filtering model to learn song similarities from audio features.
 
 Steps:
 
-1. Extract MFCC features from audio files:
+Extract MFCC features from audio files:
+python features.py
+This will store the extracted features in the MongoDB collection Audio1.Features1.
 
-   ```
-   python features.py
-   ```
+Train the model:
 
-   This will store the extracted features in the MongoDB collection `Audio1.Features1`.
+python train_model.py
+Loads MFCC feature vectors and song metadata
 
-2. Train the model:
+Builds a song-feature matrix
 
-   ```
-   python train_model.py
-   ```
+Trains an ALS model using PySpark's pyspark.ml.recommendation.ALS
 
-   This script will preprocess the data, train the MLP model using PyTorch, and save the model as `trained_model.pkl`.
+Saves the trained model for use in the Flask app
 
----
+
 
 ## Running the Application
 
